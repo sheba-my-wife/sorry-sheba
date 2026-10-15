@@ -1,1 +1,184 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sheba, I'm Sorry 🌙</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--ink:#fdf3ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;color:var(--ink);overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;
+  background:radial-gradient(ellipse at 80% 0%,#5a2466 0%,transparent 55%),radial-gradient(ellipse at 10% 100%,#6a2549 0%,transparent 50%),linear-gradient(180deg,#0b0820,#1c1040 60%,#2b1248)}
+.moon{position:fixed;top:7vh;right:9vw;width:min(24vw,110px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffbe8,#ffe3a8 60%,#f3c56f);box-shadow:0 0 50px 12px rgba(255,220,140,.4)}
+.moon::after{content:"";position:absolute;inset:-60%;border-radius:50%;background:radial-gradient(circle,rgba(255,190,200,.35),transparent 65%);animation:mp 5s ease-in-out infinite;will-change:opacity}
+@keyframes mp{50%{opacity:.3}}
+.shoot{position:fixed;top:var(--t);left:var(--l);width:110px;height:2px;background:linear-gradient(90deg,#fff,transparent);opacity:0;animation:shoot 7s linear infinite;animation-delay:var(--d);will-change:transform,opacity}
+@keyframes shoot{0%{opacity:0;transform:translate3d(0,0,0) rotate(-30deg)}3%{opacity:1}12%{opacity:0;transform:translate3d(-340px,200px,0) rotate(-30deg)}100%{opacity:0}}
+.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;z-index:10;transition:opacity .6s,transform .6s}
+.screen.hide{opacity:0;transform:translateY(24px) scale(.95);pointer-events:none}
+.card{width:min(92vw,440px);text-align:center;padding:34px 24px 30px;border-radius:30px;background:rgba(48,24,80,.72);border:1px solid rgba(255,255,255,.2);box-shadow:0 20px 50px rgba(0,0,0,.45);animation:rise .7s ease-out both}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.bear{font-size:60px;display:inline-block;animation:bob 3s ease-in-out infinite;will-change:transform}
+@keyframes bob{50%{transform:translateY(-8px)}}
+h1{font-size:25px;line-height:1.55;margin:12px 0 26px;font-weight:700}
+.title{font-family:'Pacifico','Hind Siliguri',cursive;font-size:clamp(36px,10.5vw,58px);line-height:1.35;margin:8px 0 12px;background:linear-gradient(90deg,#ffd98a,#fff,#ff6fa8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btns{display:flex;gap:14px;justify-content:center}
+button{font:inherit;font-size:20px;font-weight:700;padding:13px 32px;border:0;border-radius:50px;cursor:pointer;color:#fff;transition:transform .15s}
+button:active{transform:scale(.9)}
+.yes{background:linear-gradient(135deg,#ff6fa8,#ff8f6b)}
+.no{background:linear-gradient(135deg,#5ec8ff,#8a6bff)}
+.fg{margin-top:22px;font-size:18px;background:linear-gradient(135deg,#ffd98a,#ff6fa8);color:#3a0f2c;animation:pl 1.8s ease-in-out infinite;will-change:transform}
+@keyframes pl{50%{transform:scale(1.06)}}
+.msg{font-size:19px;line-height:1.8;color:#ffe2f0;white-space:pre-line;min-height:7.2em}
+.hint{margin-top:14px;font-size:14.5px;opacity:.75}
+canvas{position:fixed;inset:0;z-index:20;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="moon"></div>
+<div class="shoot" style="--t:12vh;--l:80vw;--d:1s"></div>
+<div class="shoot" style="--t:30vh;--l:95vw;--d:4.5s"></div>
 
+<div class="screen" id="gate">
+  <div class="card">
+    <div class="bear">🧸</div>
+    <h1>তুমি কি এখনও আমার ওপর রাগ করে আছো?</h1>
+    <div class="btns">
+      <button class="yes" id="yes">Yes 😤</button>
+      <button class="no" id="no">No 🥹</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen hide" id="sorry">
+  <div class="card">
+    <div class="bear">💌</div>
+    <div class="title">Sorry, Sheba</div>
+    <div class="msg" id="msg"></div>
+    <button class="fg" id="fg">ক্ষমা করে দিলাম 💖</button>
+    <div class="hint">✨ যেখানে ইচ্ছা ছুঁয়ে দেখো ✨</div>
+  </div>
+</div>
+
+<div class="screen hide" id="thanks">
+  <div class="card">
+    <div class="bear">🥰</div>
+    <div class="title">Thank You</div>
+    <p class="msg" style="min-height:0">ধন্যবাদ সোনা 💖<br>তুমি আমার রাতের আকাশের সবচেয়ে সুন্দর চাঁদ।<br>আমি তোমাকে অনেক ভালোবাসি।</p>
+    <div class="hint">✨ ছুঁয়ে দেখো ✨</div>
+  </div>
+</div>
+
+<canvas id="c"></canvas>
+
+<script>
+(function(){
+  var cv=document.getElementById('c'),ctx=cv.getContext('2d');
+  var W,H,D,mode='gate',P=[],R=[],F=[],cache={},MAX=130;
+  var cols=['#ff6fa8','#ffd98a','#ffffff','#ffb3d9','#c9a0ff'];
+  var gold=['#ffd98a','#ffffff','#ffb3d9'];
+  var hearts=['💖','💗','💕','💘','🌸','✨'];
+  function rnd(a,b){return a+Math.random()*(b-a)}
+  function pick(a){return a[Math.floor(Math.random()*a.length)]}
+  function q(n){return Math.round(n/4)*4}
+  function resize(){D=Math.min(devicePixelRatio||1,1.5);W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;ctx.setTransform(D,0,0,D,0,0);cache={}}
+  resize();addEventListener('resize',resize);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){cache={}});
+
+  /* pre-rendered sprites: draw once, then only drawImage each frame */
+  function sprite(t,sz,col,emoji){
+    var k=t+'|'+sz+'|'+col,s=cache[k];if(s)return s;
+    var c=document.createElement('canvas'),x=c.getContext('2d');
+    var font=emoji?sz+'px system-ui,sans-serif':'700 '+sz+"px Pacifico,'Hind Siliguri',cursive";
+    x.font=font;
+    var w=Math.ceil(x.measureText(t).width)+44,h=Math.ceil(sz*1.6)+44;
+    c.width=w*D;c.height=h*D;x.scale(D,D);x.font=font;x.textAlign='center';x.textBaseline='middle';
+    if(!emoji){x.shadowColor=col;x.shadowBlur=14;x.fillStyle=col}
+    x.fillText(t,w/2,h/2);
+    return cache[k]={c:c,w:w,h:h};
+  }
+  var glow=(function(){var c=document.createElement('canvas');c.width=c.height=32;var x=c.getContext('2d');var g=x.createRadialGradient(16,16,0,16,16,16);g.addColorStop(0,'rgba(255,235,170,1)');g.addColorStop(1,'rgba(255,217,138,0)');x.fillStyle=g;x.fillRect(0,0,32,32);return c})();
+  for(var i=0;i<24;i++)F.push({x:rnd(0,W),y:rnd(0,H),r:rnd(5,11),ph:rnd(0,6.28),s:rnd(.2,.6)});
+
+  function rise(t,x,y,sz,col,emoji){
+    if(P.length>MAX)return;
+    var life=rnd(280,440);
+    P.push({t:t,x:x,y:y,vx:0,vy:-(y+70)/life,ay:0,ph:rnd(0,6.28),amp:rnd(8,24),sz:q(sz),col:col||pick(cols),age:0,life:life,e:!!emoji,rot:rnd(-.2,.2)});
+  }
+  function burst(x,y,label,palette){
+    for(var i=0;i<4;i++)rise(label,x+rnd(-26,26),y+rnd(-8,8),rnd(20,34),pick(palette||cols));
+    for(var j=0;j<6;j++){
+      var a=rnd(0,6.28),s=rnd(1.5,4);
+      P.push({t:pick(hearts),x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1.5,ay:.05,ph:0,amp:0,sz:q(rnd(18,30)),col:'#fff',age:0,life:rnd(55,90),e:true,rot:0});
+    }
+    R.push({x:x,y:y,r:4,a:.8});
+  }
+  function rain(){
+    if(mode==='sorry')rise('Sorry Sheba',rnd(30,W-30),H+20,rnd(17,32));
+    else rise('Thanks 💖',rnd(30,W-30),H+20,rnd(17,32),pick(gold));
+    if(Math.random()<.4)rise(pick(hearts),rnd(20,W-20),H+20,rnd(18,28),'#fff',true);
+  }
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    var tm=Date.now()/1000;
+    for(var i=0;i<F.length;i++){
+      var f=F[i];f.y-=f.s*.3;if(f.y<-12){f.y=H+12;f.x=rnd(0,W)}
+      ctx.globalAlpha=.35+.35*Math.sin(tm*1.6+f.ph);
+      ctx.drawImage(glow,f.x+Math.sin(tm+f.ph)*8-f.r,f.y-f.r,f.r*2,f.r*2);
+    }
+    var rate=mode==='sorry'?.3:mode==='thanks'?.12:.04;
+    if(Math.random()<rate)rain();
+    if(mode==='sorry'&&Math.random()<.1)rain();
+    for(var n=P.length-1;n>=0;n--){
+      var p=P[n];p.age++;
+      if(p.age>p.life||p.y<-60){P.splice(n,1);continue}
+      p.vy+=p.ay;p.x+=p.vx;p.y+=p.vy;
+      var sway=p.amp?Math.sin(p.ph+p.age*.035)*p.amp:0;
+      var a=Math.min(1,p.age/18)*Math.min(1,(p.life-p.age)/45);
+      var s=sprite(p.t,p.sz,p.col,p.e);
+      ctx.globalAlpha=a<0?0:a;
+      ctx.setTransform(D,0,0,D,0,0);
+      ctx.translate(p.x+sway,p.y);ctx.rotate(p.rot);
+      ctx.drawImage(s.c,-s.w/2,-s.h/2,s.w,s.h);
+    }
+    ctx.setTransform(D,0,0,D,0,0);
+    ctx.strokeStyle='#ffd0e6';ctx.lineWidth=2;
+    for(var j=R.length-1;j>=0;j--){
+      var r=R[j];r.r+=3.2;r.a-=.02;
+      if(r.a<=0){R.splice(j,1);continue}
+      ctx.globalAlpha=r.a;ctx.beginPath();ctx.arc(r.x,r.y,r.r,0,6.28);ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  var typing=null;
+  var letter="আমি জানি আমি ভুল করেছি।\nতোমার রাগটা আমার কাছে অনেক দামি, কারণ তুমি আমার কাছে অনেক দামি।\nপ্লিজ, এবারের মতো ক্ষমা করে দাও 🥺";
+  function typeIt(){
+    var el=document.getElementById('msg'),k=0,chars=Array.from(letter);
+    el.textContent='';clearInterval(typing);
+    typing=setInterval(function(){k++;el.textContent=chars.slice(0,k).join('');if(k>=chars.length)clearInterval(typing)},55);
+  }
+  function go(id,n){
+    ['gate','sorry','thanks'].forEach(function(x){document.getElementById(x).classList.toggle('hide',x!==id)});
+    mode=id;
+    for(var i=0;i<n;i++)setTimeout(rain,i*50);
+  }
+  document.getElementById('yes').onclick=function(e){e.stopPropagation();go('sorry',50);typeIt()};
+  document.getElementById('no').onclick=function(e){e.stopPropagation();go('thanks',30)};
+  document.getElementById('fg').onclick=function(e){e.stopPropagation();go('thanks',35)};
+
+  document.addEventListener('pointerdown',function(e){
+    if(e.target.closest&&e.target.closest('button'))return;
+    if(mode==='sorry')burst(e.clientX,e.clientY,'Sorry Sheba');
+    else if(mode==='thanks')burst(e.clientX,e.clientY,'Thanks 💖',gold);
+    else{R.push({x:e.clientX,y:e.clientY,r:4,a:.7});rise(pick(hearts),e.clientX,e.clientY,28,'#fff',true)}
+  });
+})();
+</script>
+</body>
+</html>
